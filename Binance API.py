@@ -14,7 +14,7 @@ import json
 
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static', static_folder='static')
 app.secret_key = b'somelongrandomsdsfsstring'
 
 
