@@ -6,6 +6,6 @@
     "routes": [
       { "src": "/(.*)", "dest": "/bapi.py" }
     ]
-     "regions": ["paris"]
+     
   }
   
