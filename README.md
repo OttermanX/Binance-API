@@ -1,7 +1,7 @@
 # Binance-API
 This is a Python Flask web application that interacts with the Binance API. It allows users to check their account balances, buy and sell cryptocurrencies (specifically LRC/USDT), and displays exchange information and symbols.
 
-The app.py file contains the backend code for the Flask application, and the index.html file contains the frontend HTML and CSS code.
+The bapi.py file contains the backend code for the Flask application, and the index.html file contains the frontend HTML and CSS code.
 
 The Binance API is used to get account information, asset balances, exchange information, and to place buy/sell orders. The binance.client and binance.enums modules are used for this purpose.
 
