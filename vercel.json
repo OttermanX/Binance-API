@@ -1,10 +1,10 @@
 {
     "version": 2,
     "builds": [
-      { "src": "Binance API.py", "use": "@vercel/python" }
+      { "src": "bapi.py", "use": "@vercel/python" }
     ],
     "routes": [
-      { "src": "/(.*)", "dest": "/Binance API.py" }
+      { "src": "/(.*)", "dest": "/bapi.py" }
     ]
   }
   
