@@ -1,9 +1,316 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Flask App</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #323437;
+            color: #d1d0c5;
+        }
+
+        body {
+            background-color: black;
+        }
+
+        h1 {
+            color: #e2b714;
+            margin: 35px;
+        }
+
+        a {
+            font-family: verdana;
+            font-weight: 600;
+        }
+
+        nav {
+            background-color: #e2b714;
+            display: flex;
+        }
+
+        #brand {
+            padding: 0px;
+        }
+
+        .inborder {
+            border-color: #e2b714;
+            background-color: ;
+        }
+
+        output {
+            width: 125px;
+            height: 30px;
+            display: inline-block;
+            vertical-align: middle;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            color: limegreen;
+            margin-left: 5px;
+        }
+
+        #lbl {
+            color: limegreen;
+        }
+
+        #lbl2 {
+            color: limegreen;
+        }
+
+        #symbol {
+            background-color: black;
+            color: #e2b714;
+        }
+
+
+
+        .container-a {
+            border: 5px solid limegreen;
+            border-radius: 10px;
+            padding: 20px;
+            justify-content: center;
+        }
+
+        .container-b {
+            border: 5px solid red;
+            border-radius: 10px;
+            padding: 20px;
+            align-items: center;
+        }
+
+        .input {
+            border: 2px solid #e2b714;
+            border-radius: 4px;
+            color: #e2b714;
+            background-color: black;
+
+        }
+
+        .padbetween {
+            margin: 6px 6px;
+        }
+
+        #buy {
+            width: 100%;
+        }
+
+        #fe {
+            width: 100%;
+        }
+
+        #main {
+            align-items: center;
+            margin-top: 60px;
+            font-size: xx-large;
+        }
+
+        #api {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bord {
+            border: 5px solid #224aff;
+            border-radius: 10px;
+            width: 40%;
+            text-align: center;
+            justify-content: center;
+            padding: 7px;
+        }
+
+        #key,
+        #secret {}
+    </style>
+
 </head>
+
+
+
+
 <body>
-    <h1>{{ message }}</h1>
+    <nav class="navbar" id="mainnavbar">
+        <a class="navbar-brand" href="#" id="brand">SpeedTrader</a>
+
+    </nav>
+    <h1 class="text-center">BINANCE Trading WebApp</h1>
+    <!--<div id="main" class="text-center">
+        <span>LRC price</span> <span class="llrcprice"></span>
+    </div>-->
+
+
+    <form id="login" action="/" method="POST">
+        <div id="api">
+            <div class="bord">
+                <label for="key">Your API KEY</label>
+                <input type="text" name="key" id="key">
+                <label for="secret">Your API Secret</label>
+                <input type="text" name="secret" id="secret">
+                <button class="btn btn-primary btn-sm" type="submit">submit</button>
+            </div>
+        </div>
+    
+    </form>
+    
+    <div class="container rounded mt-5">
+
+        <div class="row  d-flex justify-content-between">
+            <div class="col mx-4 container-a">
+
+                <div id="trades" class="padbetween">
+                    <label for="lrcprice" id="lrlbl">LRC Price:</label>
+                    <output id="lrcprice" style="font-size: large;" class="inborder"></output>
+                    {% if usdtbalance is defined and lrcbalance is defined %}
+                    <div class="padbetween">
+                        <label for="usdtbal" id="lbl">Available USDT:</label>
+                        <output id="usdtbal" class="inborder">
+                            
+                            {{ usdtbalance }}
+                          
+                    
+
+                        </output>
+
+                    </div>
+                    <div class="padbetween">
+                        <label for="lrcbal" id="lbl2">Available LRC:</label>
+                        <output id="lrcbal" class="inborder">
+                            
+                            {{ lrcbalance }}
+                           
+                        </output>
+
+                    </div>
+                    {% endif %}
+                    <div class="padbetween">
+
+                        {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                       
+                        <div 
+                            style="padding: 10px; margin-bottom: 10px; background: pink; border: solid red 1px; color: red;">
+
+                            {% for message in messages %}
+                            {{ message }}
+                            {% endfor %}
+                        </div>
+
+                        {% endif %}
+                        {% endwith %}
+                        
+                        <form method="post" action="/buy">
+                            <label for="pair">Select Pair</label>
+                            <select name="bsymbol" id="bsymbol" class="input">                              
+                                {% for symbol in symbols %}
+                                <option>{{symbol['symbol']}}</option>
+                                {% endfor %}                              
+                            </select>
+                            <!--<label for="invest">Enter Amount:</label>
+                            <input type="number" id="amount" class="input bg-black" name="amount" placeholder="eg. 0.001">
+                            -->
+
+                            <!-- <label for="invest">Enter Quantity:</label>
+                            <input type="number" id="quantity" class="input bg-black" name="quantity"
+                                placeholder="eg. 0.001">-->
+                            <div class="padbetween">
+                                <button type="submit" id="buy" value="buy" class="btn btn-success btn-sm">Buy</button>
+                            </div>
+                        </form>
+                    </div>
+
+
+
+                    <div class="padbetween">
+
+                    </div>
+
+
+                    <!--</div>
+                <div id="my_balances" class="padbetween">
+                    <table>
+                        {% for balance in my_balances %}
+                        <tr>
+                            <td>
+                                {{ balance['asset'] }}
+                            </td>
+                            <td>
+                                {{ balance['free'] }}`
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+
+                </div>
+                <div>-->
+
+                </div>
+            </div>
+
+            <div class="col mx-4 container-b" id="out">
+
+                <div class="padbetween">
+
+                </div>
+
+
+                <div class="padbetween container" id="invstatus">
+                    <h4></h4>
+
+
+                    <form method="post" action="/sell">
+                        <label for="ssymbol">Select Pair</label>
+                        <select name="ssymbol" id="ssymbol" class="input">  
+                            {% for symbol in symbols %}
+                            <option>{{symbol['symbol']}}</option>
+                            {% endfor %}                 
+                        </select>
+
+                        <div class="padbetween">
+                            <button type="submit" class="btn btn-danger btn-sm" id="fe">Sell</button>
+                        </div>
+                    </form>
+
+                </div>
+
+            </div>
+
+
+
+        </div>
+
+
+    </div>
+
+
+    <script>
+
+        let ws = new WebSocket('wss://stream.binance.com:9443/ws/lrcusdt@trade');
+        let stockPriceElement = document.getElementById('lrcprice');
+        let balance = document.getElementById('usdtbal').value;
+        let LastPrice = null;
+
+
+        ws.onmessage = (event) => {
+            let stockObject = JSON.parse(event.data);
+            let price = parseFloat(stockObject.p).toFixed(4);
+            stockPriceElement.innerText = price;
+            stockPriceElement.style.color = !LastPrice || LastPrice === price ? 'white' : price > LastPrice ? 'limegreen' : 'red';
+            LastPrice = price;
+
+
+
+        };
+
+
+
+
+    </script>
+
+
 </body>
+
 </html>
